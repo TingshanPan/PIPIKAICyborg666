@@ -116,7 +116,7 @@ public class Server implements Runnable {
 	
 	public void handleRequestMessage(ActualMessage requestMessage) throws IOException {
 		byte[] content;
-		int pieceIndex = requestMessage.payload.pieceIndex;
+		int pieceIndex = requestMessage.payload.piece_index;
 		synchronized(serverReaderWriter) {
 			content = serverReaderWriter.getPiece(pieceIndex);
 		}

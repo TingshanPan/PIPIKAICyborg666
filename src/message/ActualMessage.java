@@ -63,7 +63,7 @@ public class ActualMessage {
 				byte[] indexArray = new byte[Integer.BYTES];
 				in.read(indexArray, 0, Integer.BYTES);
 
-				payload.pieceIndex = convertBytesToInteger(indexArray);
+				payload.piece_index = convertBytesToInteger(indexArray);
 			}
 			break;
 			case bitfield: {
@@ -79,7 +79,7 @@ public class ActualMessage {
 				byte[] indexArray = new byte[Integer.BYTES];
 				in.read(indexArray, 0, Integer.BYTES);
 				
-				payload.pieceIndex = convertBytesToInteger(indexArray);
+				payload.piece_index = convertBytesToInteger(indexArray);
 				byte[] contentArray = new byte[messageLength - Integer.BYTES - Constant.MINIMUM_SIZE];
 				while (in.available() < contentArray.length) {
 					Thread.sleep(10);
@@ -118,7 +118,7 @@ public class ActualMessage {
 		//Write down the payload field according to the message type 
 		switch(messageType) {
 			case have: case request: {
-				dos.writeInt(payload.pieceIndex);
+				dos.writeInt(payload.piece_index);
 			}
 			break;
 			case bitfield: {
@@ -126,7 +126,7 @@ public class ActualMessage {
 			}
 			break;
 			case piece: {
-				dos.writeInt(payload.pieceIndex);
+				dos.writeInt(payload.piece_index);
 				dos.write(payload.content);
 			}
 			break;

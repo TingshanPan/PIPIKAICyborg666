@@ -7,28 +7,28 @@ public class MessagePayload {
 	 * bitfield message has a paylaod of a bit field
 	 * piece message has a payload of 4-byte piece index field and the content of the piece
 	 */
-	public int pieceIndex;
-	public BitField bitField;
+	public int piece_index;
 	public byte[] content;
+	public BitField bitField;
 	
 	public MessagePayload() {}
 	
 	public MessagePayload(int pieceIndex) {
-		this.pieceIndex = pieceIndex;
+		this.piece_index = pieceIndex;
 	}
-	
+
+	public MessagePayload(int pieceIndex, byte[] content) {
+		this.content = content;
+		this.piece_index = pieceIndex;
+	}
+
 	public MessagePayload(BitField bitField) {
 		this.bitField = bitField;
 	}
 	
-	public MessagePayload(int pieceIndex, byte[] content) {
-		this.pieceIndex = pieceIndex;
-		this.content = content;
-	}
-	
 	@Override
 	public String toString() {
-		return "piece index: " + Integer.toString(pieceIndex) + "\n"
+		return "piece index: " + Integer.toString(piece_index) + "\n"
 				+ "bit field: " + bitField.toString() + "\n"
 				+ "content: " + content.toString();
 	}

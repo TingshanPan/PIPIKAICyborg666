@@ -124,9 +124,9 @@ public class Client implements Runnable {
 	}
 	
 	public void handleHaveMessage(ActualMessage haveMessage) throws IOException {
-		(new Log(thisInfo.peerID)).ReceiveHaveMessageLog(thisInfo.peerID, serverInfo.peerID, haveMessage.payload.pieceIndex);
+		(new Log(thisInfo.peerID)).ReceiveHaveMessageLog(thisInfo.peerID, serverInfo.peerID, haveMessage.payload.piece_index);
 //		System.out.println("Get a have message(" + haveMessage.payload.pieceIndex + ") from peer " + serverInfo.peerID);
-		serverInfo.bitField.updateBitField(haveMessage.payload.pieceIndex);
+		serverInfo.bitField.updateBitField(haveMessage.payload.piece_index);
 		synchronized(downloadMap) {
 			downloadMap.replace(serverInfo.peerID, downloadMap.get(serverInfo.peerID), downloadMap.get(serverInfo.peerID) + 1);
 		}
@@ -175,14 +175,14 @@ public class Client implements Runnable {
 	public int handlePieceMessage(ActualMessage pieceMessage) throws IOException, InterruptedException {
 		int getPiece;
 		synchronized(clientReaderWriter) {
-			getPiece = clientReaderWriter.insertPiece(pieceMessage.payload.pieceIndex, pieceMessage.payload.content);
+			getPiece = clientReaderWriter.insertPiece(pieceMessage.payload.piece_index, pieceMessage.payload.content);
 		}
 		if(getPiece != -1) {
 			synchronized (inFlightSet) {
 				//inFlightSet.remove(pieceNum);
 				inFlightSet.remove(getPiece);
 			}
-			thisInfo.updateBitField(pieceMessage.payload.pieceIndex);
+			thisInfo.updateBitField(pieceMessage.payload.piece_index);
 			if (thisInfo.bitField.checkCompleted()) {
 				connectionStatus.setDownloadCompleted();
 			}
@@ -195,7 +195,7 @@ public class Client implements Runnable {
 		}
 		
 		(new Log(thisInfo.peerID)).DownloadPieceLog(thisInfo.peerID, serverInfo.peerID, 
-				pieceMessage.payload.pieceIndex, ++pieceGetNum);
+				pieceMessage.payload.piece_index, ++pieceGetNum);
 		return getPiece;
 	}
 
